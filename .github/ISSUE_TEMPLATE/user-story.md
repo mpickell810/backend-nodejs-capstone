@@ -15,7 +15,11 @@ assignees: ''
     * [document what you know]
 
 ### Acceptance Criteria
-    gherkin
-    Given [some context]
-    When [certain action is taken]
-    Then [the outcome of action is observed]
+- [ ] **Scenario 1: **
+    **Given** [some context]
+    **When** [certain action is taken]
+    **Then** [the outcome of action is observed]
+- [ ] **Scenario 2: **
+    **Given** [some context that maybe opposite of Scenario 1]
+    **When** [certain action is taken]
+    **Then** [the outcome of action is observed]
