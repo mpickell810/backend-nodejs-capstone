@@ -10,6 +10,7 @@ const {loadData} = require("./util/import-mongo/index");
 
 const app = express();
 const port = 3060;
+const path = require('path');
 
 // Connect to MongoDB; we just do this one time
 connectToDatabase().then(() => {
@@ -17,6 +18,7 @@ connectToDatabase().then(() => {
 })
     .catch((e) => console.error('Failed to connect to DB', e));
 
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 app.use("*",cors());
 app.use(express.json());
 app.use(pinoHttp({ logger }));
