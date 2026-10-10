@@ -108,17 +108,17 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
     )
 
     if (updatepreloveItem) {
-      res.json({ 'uploaded':'success' })
+      res.json({ uploaded:'success' })
     } else {
-    res.json({'uploaded':'failed'})
+      res.json({ uploaded:'failed' })
     }
-    } catch (e) {
+  } catch (e) {
     next(e)
-    }
+  }
 })
 
 // Delete an existing item
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
