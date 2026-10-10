@@ -7,18 +7,18 @@ const logger = require('./logger')
 
 const connectToDatabase = require('./models/db')
 
-const app = express();
-const port = 3060;
-const path = require('path');
+const app = express()
+const port = 3060
+const path = require('path')
 
 // Connect to MongoDB; we just do this one time
 connectToDatabase().then(() => {
-    logger.info('Connected to DB');
+  logger.info('Connected to DB')
 })
-    .catch((e) => console.error('Failed to connect to DB', e));
+  .catch((e) => console.error('Failed to connect to DB', e))
 
-app.use('/images', express.static(path.join(__dirname, 'public/images')));
-app.use("*",cors());
+app.use('/images', express.static(path.join(__dirname, 'public/images')))
+app.use('*', cors());
 app.use(express.json());
 app.use(pinoHttp({ logger }));
 
