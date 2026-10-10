@@ -132,10 +132,9 @@ router.delete('/:id', async (req, res, next) => {
 
     await collection.deleteOne({ id })
     res.json({ deleted: 'success' })
-
-    } catch (e) {
+  } catch (e) {
     next(e)
-    }
+  }
 })
 
 module.exports = router
