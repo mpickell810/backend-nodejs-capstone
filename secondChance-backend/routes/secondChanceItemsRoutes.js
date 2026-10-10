@@ -87,18 +87,18 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
 
     if (!secondChanceItem) {
       logger.error('secondChanceItem not found')
-    return res.status(404).json({ error: 'secondChanceItem not found' })
+      return res.status(404).json({ error: 'secondChanceItem not found' })
     }
-      
+
     secondChanceItem.category = req.body.category
     secondChanceItem.condition = req.body.condition
     secondChanceItem.age_days = req.body.age_days
     secondChanceItem.description = req.body.description
-    secondChanceItem.age_years = Number((secondChanceItem.age_days/365).toFixed(1))
+    secondChanceItem.age_years = Number((secondChanceItem.age_days / 365).toFixed(1))
     secondChanceItem.updatedAt = new Date()
 
     if (req.file) {
-    secondChanceItem.image = `images/${req.file.originalname}`
+      secondChanceItem.image = `images/${req.file.originalname}`
     }
 
     const updatepreloveItem = await collection.findOneAndUpdate(
@@ -106,9 +106,9 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
       { $set: secondChanceItem },
       { returnDocument: 'after' }
     )
-      
-    if(updatepreloveItem) {
-    res.json({'uploaded':'success'})
+
+    if (updatepreloveItem) {
+      res.json({ 'uploaded':'success' })
     } else {
     res.json({'uploaded':'failed'})
     }
