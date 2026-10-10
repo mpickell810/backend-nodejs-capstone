@@ -1,8 +1,7 @@
-/*jshint esversion: 8 */
+/* jshint esversion: 8 */
 const express = require('express')
 const multer = require('multer')
-const path = require('path')
-const fs = require('fs')
+
 const router = express.Router()
 const connectToDatabase = require('../models/db')
 const logger = require('../logger')
@@ -13,10 +12,10 @@ const directoryPath = 'public/images'
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, directoryPath); // Specify the upload directory
+    cb(null, directoryPath) // Specify the upload directory
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Use the original file name
+    cb(null, file.originalname) // Use the original file name
   },
 })
 
@@ -25,10 +24,10 @@ const upload = multer({ storage: storage })
 // Get all secondChanceItems
 router.get('/', async (req, res, next) => {
     try {
-        const db = await connectToDatabase();
-        const collection = db.collection('secondChanceItems');
-        const secondChanceItems = await collection.find({}).toArray();
-        res.json(secondChanceItems);
+        const db = await connectToDatabase()
+        const collection = db.collection('secondChanceItems')
+        const secondChanceItems = await collection.find({}).toArray()
+        res.json(secondChanceItems)
     } catch (e) {
         logger.error('oops, somethin went wrong', e)
         next(e)
@@ -46,11 +45,11 @@ router.post('/', upload.single('file'), async(req, res, next) => {
         await lastItemQuery.forEach(item => {
             secondChanceItem.id = (parseInt(item.id) + 1).toString()
         })
-        const date_added = Math.floor(new Date().getTime() / 1000);
+        const date_added = Math.floor(new Date().getTime() / 1000)
         secondChanceItem.date_added = date_added
 
         if (req.file) {
-            secondChanceItem.image = `/images/${req.file.originalname}`;
+            secondChanceItem.image = `/images/${req.file.originalname}`
         }
 
         const result = await collection.insertOne(secondChanceItem)
@@ -99,7 +98,7 @@ router.put('/:id', upload.single('file'), async(req, res, next) => {
         secondChanceItem.updatedAt = new Date()
 
         if (req.file) {
-            secondChanceItem.image = `images/${req.file.originalname}`;
+            secondChanceItem.image = `images/${req.file.originalname}`
         }
 
         const updatepreloveItem = await collection.findOneAndUpdate(
@@ -121,10 +120,10 @@ router.put('/:id', upload.single('file'), async(req, res, next) => {
 // Delete an existing item
 router.delete('/:id', async(req, res, next) => {
     try {
-        const db = await connectToDatabase();
-        const collection = db.collection('secondChanceItems');
-        const id = req.params.id;
-        const secondChanceItem = await collection.findOne({ id });
+        const db = await connectToDatabase()
+        const collection = db.collection('secondChanceItems')
+        const id = req.params.id
+        const secondChanceItem = await collection.findOne({ id })
         
         if (!secondChanceItem) {
             logger.error('secondChanceItem not found')
