@@ -11,22 +11,22 @@ const directoryPath = 'public/images'
 
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-      cb(null, directoryPath) // Specify the upload directory
-      },
-      filename: function (req, file, cb) {
-      cb(null, file.originalname) // Use the original file name
-      }
+    destination: function (req, file, cb) {
+    cb(null, directoryPath) // Specify the upload directory
+    },
+    filename: function (req, file, cb) {
+    cb(null, file.originalname) // Use the original file name
+    }
 })
 
 const upload = multer({ storage: storage })
 
 // Get all secondChanceItems
 router.get('/', async (req, res, next) => {
-      try {
-      const db = await connectToDatabase()
-      const collection = db.collection('secondChanceItems')
-      const secondChanceItems = await collection.find({}).toArray()
+    try {
+    const db = await connectToDatabase()
+    const collection = db.collection('secondChanceItems')
+    const secondChanceItems = await collection.find({}).toArray()
       res.json(secondChanceItems)
       } catch (e) {
       logger.error('oops, somethin went wrong', e)
