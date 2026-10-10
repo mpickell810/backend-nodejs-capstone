@@ -108,9 +108,9 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
     )
 
     if (updatepreloveItem) {
-      res.json({ uploaded:'success' })
+      res.json({ uploaded: 'success' })
     } else {
-      res.json({ uploaded:'failed' })
+      res.json({ uploaded: 'failed' })
     }
   } catch (e) {
     next(e)
@@ -124,14 +124,14 @@ router.delete('/:id', async (req, res, next) => {
     const collection = db.collection('secondChanceItems')
     const id = req.params.id
     const secondChanceItem = await collection.findOne({ id })
-      
+
     if (!secondChanceItem) {
-    logger.error('secondChanceItem not found')
-    return res.status(404).json({ error: 'secondChanceItem not found' })
+      logger.error('secondChanceItem not found')
+      return res.status(404).json({ error: 'secondChanceItem not found' })
     }
-      
+
     await collection.deleteOne({ id })
-    res.json({'deleted':'success'})
+    res.json({ deleted: 'success' })
 
     } catch (e) {
     next(e)
