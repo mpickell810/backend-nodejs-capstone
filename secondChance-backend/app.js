@@ -1,12 +1,11 @@
-/*jshint esversion: 8 */
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const pinoHttp = require('pino-http');
-const logger = require('./logger');
+/* jshint esversion: 8 */
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const pinoHttp = require('pino-http')
+const logger = require('./logger')
 
-const connectToDatabase = require('./models/db');
-const {loadData} = require("./util/import-mongo/index");
+const connectToDatabase = require('./models/db')
 
 const app = express();
 const port = 3060;
