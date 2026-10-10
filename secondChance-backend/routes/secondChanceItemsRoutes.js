@@ -43,20 +43,20 @@ router.post('/', upload.single('file'), async (req, res, next) => {
     const secondChanceItem = req.body
 
     await lastItemQuery.forEach(item => {
-    secondChanceItem.id = (parseInt(item.id) + 1).toString()
+      secondChanceItem.id = (parseInt(item.id) + 1).toString()
     })
     const dateAdded = Math.floor(new Date().getTime() / 1000)
     secondChanceItem.dateAdded = dateAdded
 
     if (req.file) {
-    secondChanceItem.image = `/images/${req.file.originalname}`
+      secondChanceItem.image = `/images/${req.file.originalname}`
     }
 
     await collection.insertOne(secondChanceItem)
     res.status(201).json(secondChanceItem)
-    } catch (e) {
+  } catch (e) {
     next(e)
-    }
+  }
 })
 
 // Get a single secondChanceItem by ID
@@ -65,20 +65,20 @@ router.get('/:id', async (req, res, next) => {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
     const id = req.params.id
-    const secondChanceItem = await collection.findOne({ id:id })
+    const secondChanceItem = await collection.findOne({ id: id })
 
     if (!secondChanceItem) {
-    return res.status(404).send('secondChanceItem not found')
+      return res.status(404).send('secondChanceItem not found')
     }
 
     res.json(secondChanceItem)
-    } catch (e) {
+  } catch (e) {
     next(e)
-    }
+  }
 })
 
 // Update and existing item
-router.put('/:id', upload.single('file'), async(req, res, next) => {
+router.put('/:id', upload.single('file'), async (req, res, next) => {
   try {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
@@ -86,7 +86,7 @@ router.put('/:id', upload.single('file'), async(req, res, next) => {
     const secondChanceItem = await collection.findOne({ id })
 
     if (!secondChanceItem) {
-    logger.error('secondChanceItem not found')
+      logger.error('secondChanceItem not found')
     return res.status(404).json({ error: 'secondChanceItem not found' })
     }
       
