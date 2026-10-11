@@ -98,9 +98,7 @@ const Profile = () => {
 
   return (
 <div className="profile-container">
-  {editMode
-    ?
-    (
+  {editMode ? (
 <form onSubmit={handleSubmit}>
 <label>
   Email
@@ -123,7 +121,7 @@ const Profile = () => {
 
 <button type="submit">Save</button>
 </form>
-  ) : (
+      ) : (
 <div className="profile-details">
 <h1>Hi, {userDetails.name}</h1>
 <p> <b>Email:</b> {userDetails.email}</p>

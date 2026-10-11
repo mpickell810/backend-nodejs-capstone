@@ -107,9 +107,7 @@ function SearchPage () {
                     />
                     <button className="btn btn-primary" onClick={handleSearch}>Search</button>
                     <div className="search-results mt-4">
-                        {searchResults.length > 0 
-                            ?
-                            (
+                        {searchResults.length > 0  ?  (
                           searchResults.map(product => (
                                 <div key={product.id} className="card mb-3">
                                     {/* Check if product has an image and display it */}
@@ -126,7 +124,7 @@ function SearchPage () {
                                 </div>
                           ))
                         ) : (
-                            <div className="alert alert-info" role="alert">
+                                <div className="alert alert-info" role="alert">
                                 No products found. Please revise your filters.
                             </div>
                         )}
