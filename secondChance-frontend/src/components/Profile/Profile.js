@@ -126,7 +126,7 @@ const Profile = () => {
 
               <button type="submit">Save</button>
             </form>
-          )
+            )
           : (
             <div className="profile-details">
               <h1>Hi, {userDetails.name}</h1>
@@ -146,7 +146,7 @@ const Profile = () => {
                 {changed}
               </span>
             </div>
-          )
+            )
       }
     </div>
   )

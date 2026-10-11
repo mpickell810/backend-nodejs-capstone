@@ -110,7 +110,7 @@ function SearchPage () {
             {
               searchResults.length > 0
                 ? (
-                  searchResults.map(product => (
+                    searchResults.map(product => (
                     <div key={product.id} className="card mb-3">
                       {/* Check if product has an image and display it */}
                       <img src={urlConfig.backendUrl + product.image} alt={product.name} className="card-img-top" />
@@ -124,13 +124,13 @@ function SearchPage () {
                         </button>
                       </div>
                     </div>
-                  ))
-                )
+                    ))
+                  )
                 : (
                   <div className="alert alert-info" role="alert">
                     No products found. Please revise your filters.
                   </div>
-                )
+                  )
             }
           </div>
         </div>
