@@ -2,7 +2,7 @@ const { FlatCompat } = require('@eslint/eslintrc')
 const globals = require('globals')
 
 const compat = new FlatCompat({
-  baseDirectory: __dirname,
+  baseDirectory: __dirname
 })
 
 module.exports = [
@@ -23,9 +23,9 @@ module.exports = [
     },
     rules: {
       // Add the custom rules we fixed earlier
-      'camelcase': 'error',
+      camelcase: 'error',
       'padded-blocks': ['error', 'never'],
-      'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }]
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }]
     }
   }
 ]
