@@ -98,8 +98,9 @@ const Profile = () => {
 
   return (
 <div className="profile-container">
-  {editMode ?
-     ( 
+  {editMode
+    ?
+    (
 <form onSubmit={handleSubmit}>
 <label>
   Email
@@ -129,7 +130,7 @@ const Profile = () => {
 <button onClick={handleEdit}>Edit</button>
 <span style={{ color: 'green', height: '.5cm', display: 'block', fontStyle: 'italic', fontSize: '12px' }}>{changed}</span>
 </div>
-  )}
+      )}
 </div>
   )
 }

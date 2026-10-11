@@ -30,7 +30,7 @@ function ItemPage () {
     formData.append('condition', condition)
     formData.append('zipcode', document.getElementById('zipcode').value)
     const ageDays = document.getElementById('age_days').value
-    formData.append('age_days', age_days)
+    formData.append('ageDays', ageDays)
     formData.append('age_years', (ageDays / 365).toFixed(2))
     formData.append('description', document.getElementById('description').value)
     formData.append('image', `/images/${file.name}`)
@@ -119,7 +119,7 @@ function ItemPage () {
                           className="form-control"
                           placeholder="Enter the  Age in days"
                           value={ageDays}
-                          onChange={(e) => setAge_days(e.target.value)}
+                          onChange={(e) => setAgeDays(e.target.value)}
                       />
                   </div>
 
