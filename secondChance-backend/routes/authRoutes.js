@@ -20,13 +20,13 @@ router.post('/register', async (req, res) => {
     const db = await connectToDatabase()
     // Access MongoDB `users` collection
     const collection = db.collection('users')
-	// Check if user credentials already exists in the database and throw an error if they do
+    // Check if user credentials already exists in the database and throw an error if they do
     const existingEmail = await collection.findOne({ email: req.body.email })
-      if (existingEmail) {
-        logger.error('Email ID already exists.')
-        return res.status(400).json({ error: 'Email ID already exists.' })
-      }
-	// Create a hash to encrypt the password so that it is not readable in the database
+    if (existingEmail) {
+      logger.error('Email ID already exists.')
+      return res.status(400).json({ error: 'Email ID already exists.' })
+    }
+    // Create a hash to encrypt the password so that it is not readable in the database
     const salt = await bcryptjs.genSalt(10)
     const hash = await bcryptjs.hash(req.body.password, salt)
     // Insert the user into the database
@@ -38,7 +38,7 @@ router.post('/register', async (req, res) => {
       password: hash,
       createdAt: new Date()
     })
-	// Create JWT authentication if passwords match with user._id as payload
+    // Create JWT authentication if passwords match with user._id as payload
     const payload = {
       user: {
         id: newUser.insertedId,
@@ -46,7 +46,7 @@ router.post('/register', async (req, res) => {
     }
 
     const authtoken = jwt.sign(payload, JWT_SECRET)
-	// Log the successful registration using the logger
+    // Log the successful registration using the logger
     logger.info('User registered successfully')
     // Return the user email and the token as a JSON
     res.json({ authtoken, email })
@@ -129,7 +129,7 @@ router.put('/update', async (req, res) => {
       return res.status(404).json({ error: 'User not found.' })
     }
 
-	// Update the user credentials in the database
+    // Update the user credentials in the database
     const userId = updatedUser._id ? updatedUser._id.toString() : updatedUser.value._id.toString()
     // Create JWT authentication with `user._id` as a payload using the secret key from the .env file
     const payload = {
