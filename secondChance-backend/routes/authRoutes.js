@@ -73,25 +73,25 @@ router.post('/login', async (req, res) => {
       }
       // Fetch user details
       const payload = {
-      user: {
-        id: theUser._id.toString(),
-      },
-    }        
-    // Fetch user details from a database
-    const userName = theUser.firstName
-    const userEmail = theUser.email
-    // Create JWT authentication if passwords match with user._id as payload
-    const authtoken = jwt.sign(payload, JWT_SECRET)
-      logger.info('User logged in successfully')
-      return res.status(200).json({ authtoken, userName, userEmail })
+        user: {
+          id: theUser._id.toString()
+        }
+      }        
+      // Fetch user details from a database
+      const userName = theUser.firstName
+      const userEmail = theUser.email
+      // Create JWT authentication if passwords match with user._id as payload
+      const authtoken = jwt.sign(payload, JWT_SECRET)
+        logger.info('User logged in successfully')
+        return res.status(200).json({ authtoken, userName, userEmail })
   // Send appropriate message if the user is not found
   } else {
       logger.error('User not found')
       return res.status(404).json({ error: 'User not found.' })
   }
   } catch (e) {
-    logger.error(e)
-    return res.status(500).send({ error: 'Internal server error', details: e.message })
+      logger.error(e)
+      return res.status(500).send({ error: 'Internal server error', details: e.message })
   }
 })
 
