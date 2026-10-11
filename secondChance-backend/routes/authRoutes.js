@@ -41,8 +41,8 @@ router.post('/register', async (req, res) => {
     // Create JWT authentication if passwords match with user._id as payload
     const payload = {
       user: {
-        id: newUser.insertedId,
-      },
+        id: newUser.insertedId
+      }
     }
 
     const authtoken = jwt.sign(payload, JWT_SECRET)
@@ -56,7 +56,7 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    console.log('\n\n Inside login')
+  console.log('\n\n Inside login')
   try {
     // Connect to `secondChance` in MongoDB through `connectToDatabase` in `db.js`.
     const db = await connectToDatabase()
@@ -66,13 +66,13 @@ router.post('/login', async (req, res) => {
     const theUser = await collection.findOne({ email: req.body.email })
     // Check if the password matches the encrypted password and send appropriate message on mismatch
     if (theUser) {
-      let result = await bcryptjs.compare(req.body.password, theUser.password)
-      if(!result) {
+      const result = await bcryptjs.compare(req.body.password, theUser.password)
+      if (!result) {
         logger.error('Passwords do not match')
         return res.status(404).json({ error: 'Wrong password' })
-    }
-    // Fetch user details
-    let payload = {
+      }
+      // Fetch user details
+      const payload = {
       user: {
         id: theUser._id.toString(),
       },
