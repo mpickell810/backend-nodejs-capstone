@@ -118,7 +118,7 @@ router.put('/update', async (req, res) => {
       { email },
       {
         $set: {
-        ...req.body,
+          ...req.body,
           updatedAt: new Date()
         }
       },
@@ -135,14 +135,14 @@ router.put('/update', async (req, res) => {
     const payload = {
       user: {
         id: userId
-      },
+      }
     }
     const authtoken = jwt.sign(payload, JWT_SECRET)
-      logger.info('User updated successfully')
-      res.json({authtoken})
+    logger.info('User updated successfully')
+    res.json({ authtoken })
   } catch (error) {
     console.error('!!! REAL BACKEND ERROR !!!', error)
-     return res.status(500).send('Internal server error')
+    return res.status(500).send('Internal server error')
   }
 })
 
