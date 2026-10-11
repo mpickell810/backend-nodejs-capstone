@@ -100,50 +100,54 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      {editMode ? (
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email
-            <input
-              type="email"
-              name="email"
-              value={userDetails.email}
-              disabled
-            />
-          </label>
+      {
+        editMode
+          ? (
+            <form onSubmit={handleSubmit}>
+              <label>
+                Email
+                <input
+                  type="email"
+                  name="email"
+                  value={userDetails.email}
+                  disabled
+                />
+              </label>
 
-          <label>
-            Name
-            <input
-              type="text"
-              name="name"
-              value={updatedDetails.name}
-              onChange={handleInputChange}
-            />
-          </label>
+              <label>
+                Name
+                <input
+                  type="text"
+                  name="name"
+                  value={updatedDetails.name}
+                  onChange={handleInputChange}
+                />
+              </label>
 
-          <button type="submit">Save</button>
-        </form>
-      ) : (
-        <div className="profile-details">
-          <h1>Hi, {userDetails.name}</h1>
-          <p>
-            <b>Email:</b> {userDetails.email}
-          </p>
-          <button onClick={handleEdit}>Edit</button>
-          <span
-            style={{
-              color: 'green',
-              height: '.5cm',
-              display: 'block',
-              fontStyle: 'italic',
-              fontSize: '12px'
-            }}
-          >
-            {changed}
-          </span>
-        </div>
-      )}
+              <button type="submit">Save</button>
+            </form>
+          )
+          : (
+            <div className="profile-details">
+              <h1>Hi, {userDetails.name}</h1>
+              <p>
+                <b>Email:</b> {userDetails.email}
+              </p>
+              <button onClick={handleEdit}>Edit</button>
+              <span
+                style={{
+                  color: 'green',
+                  height: '.5cm',
+                  display: 'block',
+                  fontStyle: 'italic',
+                  fontSize: '12px'
+                }}
+              >
+                {changed}
+              </span>
+            </div>
+          )
+      }
     </div>
   )
 }
