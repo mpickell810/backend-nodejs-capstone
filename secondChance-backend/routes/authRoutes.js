@@ -109,20 +109,20 @@ router.put('/update', async (req, res) => {
     if (!email) {
       logger.error('Email not found in the request headers')
       return res.status(400).json({ error: 'Email not found in the request headers.' })
-      }
+    }
     // Connect to MongoDB
     const db = await connectToDatabase()
     const collection = db.collection('users')
     // Find the user credentials in database
     const updatedUser = await collection.findOneAndUpdate(
-        { email },
-        {
-            $set: {
-                ...req.body,
-                updatedAt: new Date()
-            }
-        },
-        { returnDocument: 'after' }
+      { email },
+      {
+        $set: {
+        ...req.body,
+          updatedAt: new Date()
+        }
+      },
+      { returnDocument: 'after' }
     )
     if (!updatedUser) {
       logger.error('User not found for update')
@@ -134,7 +134,7 @@ router.put('/update', async (req, res) => {
     // Create JWT authentication with `user._id` as a payload using the secret key from the .env file
     const payload = {
       user: {
-        id: userId,
+        id: userId
       },
     }
     const authtoken = jwt.sign(payload, JWT_SECRET)
