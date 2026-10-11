@@ -1,20 +1,20 @@
-const { FlatCompat } = require("@eslint/eslintrc");
-const globals = require("globals");
+const { FlatCompat } = require('@eslint/eslintrc')
+const globals = require('globals')
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
-});
+})
 
 module.exports = [
   // 1. Inherit the old 'standard' config patterns safely
-  ...compat.extends("eslint-config-standard"),
+  ...compat.extends('eslint-config-standard'),
 
   // 2. Your project's environment and rules settings
   {
-    files: ["**/*.js", "**/*.cjs"],
+    files: ['**/*.js', '**/*.cjs'],
     languageOptions: {
-      ecmaVersion: "latest",
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.browser,
         ...globals.commonjs,
@@ -28,4 +28,4 @@ module.exports = [
       'no-unused-vars': ['warn', { 'argsIgnorePattern': '^_' }]
     }
   }
-];
+]
