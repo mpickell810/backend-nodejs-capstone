@@ -98,7 +98,8 @@ const Profile = () => {
 
   return (
 <div className="profile-container">
-  {editMode ? (
+  {editMode ?
+     ( 
 <form onSubmit={handleSubmit}>
 <label>
   Email

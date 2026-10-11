@@ -9,7 +9,7 @@ function ItemPage () {
   const [category, setCategory] = useState('Living')
   const [condition, setCondition] = useState('New')
   const [zipcode, setZipcode] = useState('10110')
-  const [age_days, setAge_days] = useState(0)
+  const [ageDays, setAgeDays] = useState(0)
   const [description, setDescription] = useState('')
   const [message, setMessage] = useState(null)
   const { isLoggedIn } = useAppContext()
@@ -29,9 +29,9 @@ function ItemPage () {
     formData.append('category', category)
     formData.append('condition', condition)
     formData.append('zipcode', document.getElementById('zipcode').value)
-    const age_days = document.getElementById('age_days').value
+    const ageDays = document.getElementById('age_days').value
     formData.append('age_days', age_days)
-    formData.append('age_years', (age_days / 365).toFixed(2))
+    formData.append('age_years', (ageDays / 365).toFixed(2))
     formData.append('description', document.getElementById('description').value)
     formData.append('image', `/images/${file.name}`)
     formData.append('comments', [])
@@ -118,7 +118,7 @@ function ItemPage () {
                           type="text"
                           className="form-control"
                           placeholder="Enter the  Age in days"
-                          value={age_days}
+                          value={ageDays}
                           onChange={(e) => setAge_days(e.target.value)}
                       />
                   </div>
