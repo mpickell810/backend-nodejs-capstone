@@ -1,67 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import {useNavigate } from 'react-router-dom';
-import { urlConfig } from "../../config"
-import { useAppContext } from '../../context/AppContext';
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { urlConfig } from '../../config'
+import { useAppContext } from '../../context/AppContext'
 
-function ItemPage() {
-    const navigate = useNavigate();
-    const [name, setName] = useState('');
-    const [category, setCategory] = useState('Living');
-    const [condition, setCondition] = useState('New');
-    const [zipcode, setZipcode] = useState('10110');
-    const [age_days, setAge_days] = useState(0);
-    const [description, setDescription] = useState('');
-    const [message, setMessage] = useState(null);
-    const { isLoggedIn } = useAppContext();
+function ItemPage () {
+  const navigate = useNavigate()
+  const [name, setName] = useState('')
+  const [category, setCategory] = useState('Living')
+  const [condition, setCondition] = useState('New')
+  const [zipcode, setZipcode] = useState('10110')
+  const [age_days, setAge_days] = useState(0)
+  const [description, setDescription] = useState('')
+  const [message, setMessage] = useState(null)
+  const { isLoggedIn } = useAppContext()
 
-    useEffect(() => {
-        if (!isLoggedIn) {
-            navigate('/app/login')
-        }
-    });
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/app/login')
+    }
+  })
 
-    const handleAddItem = async () => {
+  const handleAddItem = async () => {
+    // Get the form data
+    const formData = new FormData()
+    const file = document.getElementById('file').files[0]
+    formData.append('file', file)
+    formData.append('name', document.getElementById('name').value)
+    formData.append('category', category)
+    formData.append('condition', condition)
+    formData.append('zipcode', document.getElementById('zipcode').value)
+    const age_days = document.getElementById('age_days').value
+    formData.append('age_days', age_days)
+    formData.append('age_years', (age_days / 365).toFixed(2))
+    formData.append('description', document.getElementById('description').value)
+    formData.append('image', `/images/${file.name}`)
+    formData.append('comments', [])
 
-      // Get the form data
-      const formData = new FormData();
-      const file = document.getElementById('file').files[0];
-      formData.append('file', file);
-      formData.append('name', document.getElementById('name').value);
-      formData.append('category', category);
-      formData.append('condition', condition);
-      formData.append('zipcode', document.getElementById('zipcode').value);
-      let age_days = document.getElementById('age_days').value;
-      formData.append('age_days', age_days);
-      formData.append('age_years', (age_days/365).toFixed(2));
-      formData.append('description', document.getElementById('description').value);
-      formData.append('image', `/images/${file.name}`);
-      formData.append('comments', []);
+    try {
+      const url = `${urlConfig.backendUrl}/api/secondchance/items`
+      console.log(url)
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData
+      })
 
-          try {
-            let url = `${urlConfig.backendUrl}/api/secondchance/items`;
-            console.log(url);
-              const response = await fetch(url, {
-                method: 'POST',
-                body: formData
-            });
-    
-              if (!response.ok) {
-                  throw new Error('Network response was not ok');
-              }
-              const data = await response.json();
-              if(data){
-                setMessage("Item added!")
-                setTimeout(() => {
-                    setMessage("")
-                    navigate("/");
-                }, 500);
-              }
-          } catch (error) {
-            setMessage(error.message);
-          }
+      if (!response.ok) {
+        throw new Error('Network response was not ok')
+      }
+      const data = await response.json()
+      if (data) {
+        setMessage('Item added!')
+        setTimeout(() => {
+          setMessage('')
+          navigate('/')
+        }, 500)
+      }
+    } catch (error) {
+      setMessage(error.message)
+    }
   }
 
-    return (
+  return (
       <div className="container mt-5">
       <div className="row justify-content-center">
           <div className="col-md-6 col-lg-4">
@@ -135,17 +134,17 @@ function ItemPage() {
                           onChange={(e) => setDescription(e.target.value)}
                       />
                   </div>
-                  <input style={{padding:'.5cm'}} type="file" id="file" name="file" accept=".jpg, .png, .gif"/>
+                  <input style={{ padding: '.5cm' }} type="file" id="file" name="file" accept=".jpg, .png, .gif"/>
 
                   <button className="btn btn-primary w-100 mb-3" onClick={handleAddItem}>Add Item</button>
 
-                  <span style={{color:'green',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{message}</span>
+                  <span style={{ color: 'green', height: '.5cm', display: 'block', fontStyle: 'italic', fontSize: '12px' }}>{message}</span>
 
               </div>
           </div>
       </div>
-  </div>      
-    );
+  </div>
+  )
 }
 
-export default ItemPage;
+export default ItemPage

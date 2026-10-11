@@ -1,19 +1,18 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import MainPage from './components/MainPage/MainPage';
-import SearchPage from './components/SearchPage/SearchPage';
-import LoginPage from './components/LoginPage/LoginPage';
-import DetailsPage from './components/DetailsPage/DetailsPage';
-import RegisterPage from './components/RegisterPage/RegisterPage';
-import ItemPage from './components/ItemPage/ItemPage';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
-import Navbar from './components/Navbar/Navbar';
-import Profile from './components/Profile/Profile';
-import { AppProvider } from './context/AppContext';
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import MainPage from './components/MainPage/MainPage'
+import SearchPage from './components/SearchPage/SearchPage'
+import LoginPage from './components/LoginPage/LoginPage'
+import DetailsPage from './components/DetailsPage/DetailsPage'
+import RegisterPage from './components/RegisterPage/RegisterPage'
+import ItemPage from './components/ItemPage/ItemPage'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './App.css'
+import Navbar from './components/Navbar/Navbar'
+import Profile from './components/Profile/Profile'
+import { AppProvider } from './context/AppContext'
 
-function App() {
-
+function App () {
   return (
       <AppProvider>
         <Navbar/>
@@ -28,9 +27,7 @@ function App() {
           <Route path="/app/addItem" element={<ItemPage />} />
         </Routes>
         </AppProvider>
-  );
-
-
+  )
 }
 
-export default App;
+export default App

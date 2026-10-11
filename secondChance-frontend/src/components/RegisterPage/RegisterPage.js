@@ -1,53 +1,53 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {urlConfig} from '../../config';
-import { useAppContext } from '../../context/AppContext';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { urlConfig } from '../../config'
+import { useAppContext } from '../../context/AppContext'
 
-import './RegisterPage.css';
+import './RegisterPage.css'
 
-function RegisterPage() {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [showerr, setShowerr] = useState('');
-    const navigate = useNavigate();
-    const { setIsLoggedIn } = useAppContext();
+function RegisterPage () {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [showerr, setShowerr] = useState('')
+  const navigate = useNavigate()
+  const { setIsLoggedIn } = useAppContext()
 
-    const handleRegister = async () => {
-        //api call
-        const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                password: password
-            })
-        });
+  const handleRegister = async () => {
+    // api call
+    const response = await fetch(`${urlConfig.backendUrl}/api/auth/register`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName,
+        lastName,
+        email,
+        password
+      })
+    })
 
-        const json = await response.json();
-        console.log('json data', json);
-        console.log('er', json.error);
+    const json = await response.json()
+    console.log('json data', json)
+    console.log('er', json.error)
 
-        // console.log('ers',json.errors);
+    // console.log('ers',json.errors);
 
-        if (json.authtoken) {
-            sessionStorage.setItem('auth-token', json.authtoken);
-            sessionStorage.setItem('name', firstName);
-            sessionStorage.setItem('email', json.email);
-            navigate('/app');
-            setIsLoggedIn(true);
-        }
-        if (json.error) {
-            setShowerr(json.error);
-        }
+    if (json.authtoken) {
+      sessionStorage.setItem('auth-token', json.authtoken)
+      sessionStorage.setItem('name', firstName)
+      sessionStorage.setItem('email', json.email)
+      navigate('/app')
+      setIsLoggedIn(true)
     }
+    if (json.error) {
+      setShowerr(json.error)
+    }
+  }
 
-    return (
+  return (
         <div className="container mt-5">
             <div className="row justify-content-center">
                 <div className="col-md-6 col-lg-4">
@@ -114,7 +114,7 @@ function RegisterPage() {
                 </div>
             </div>
         </div>
-    );
+  )
 }
 
-export default RegisterPage;
+export default RegisterPage
