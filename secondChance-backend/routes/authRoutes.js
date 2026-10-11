@@ -99,16 +99,16 @@ router.post('/login', async (req, res) => {
 router.put('/update', async (req, res) => {
   // Validate the input using `validationResult` and return an appropriate message if you detect an error
   const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-      logger.error('Validation errors in update request', errors.array())
-      return res.status(400).json({ errors: errors.array() })
-    }
-    try {
-      // Check if `email` is present in the header and throw an appropriate error message if it is not present
-      const email = req.headers.email
-      if (!email) {
-        logger.error('Email not found in the request headers')
-        return res.status(400).json({ error: 'Email not found in the request headers.' })
+  if (!errors.isEmpty()) {
+    logger.error('Validation errors in update request', errors.array())
+    return res.status(400).json({ errors: errors.array() })
+  }
+  try {
+    // Check if `email` is present in the header and throw an appropriate error message if it is not present
+    const email = req.headers.email
+    if (!email) {
+      logger.error('Email not found in the request headers')
+      return res.status(400).json({ error: 'Email not found in the request headers.' })
       }
     // Connect to MongoDB
     const db = await connectToDatabase()
