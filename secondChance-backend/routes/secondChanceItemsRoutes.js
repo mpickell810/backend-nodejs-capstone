@@ -9,6 +9,36 @@ const logger = require('../logger')
 // Define the upload directory path
 const directoryPath = 'public/images'
 
+const normalizeItem = (item = {}) => {
+  if (!item || typeof item !== 'object') {
+    return item
+  }
+
+  const normalized = { ...item }
+
+  if (normalized.dateAdded == null && normalized.date_added != null) {
+    normalized.dateAdded = normalized.date_added
+  }
+
+  if (normalized.ageDays == null && normalized.age_days != null) {
+    normalized.ageDays = normalized.age_days
+  }
+
+  if (normalized.ageYears == null && normalized.age_years != null) {
+    normalized.ageYears = normalized.age_years
+  }
+
+  if (normalized.postedBy == null && normalized.posted_by != null) {
+    normalized.postedBy = normalized.posted_by
+  }
+
+  if (normalized.comments == null) {
+    normalized.comments = []
+  }
+
+  return normalized
+}
+
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -27,7 +57,7 @@ router.get('/', async (req, res, next) => {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
     const secondChanceItems = await collection.find({}).toArray()
-    res.json(secondChanceItems)
+    res.json(secondChanceItems.map(normalizeItem))
   } catch (e) {
     logger.error('oops, somethin went wrong', e)
     next(e)
@@ -53,7 +83,7 @@ router.post('/', upload.single('file'), async (req, res, next) => {
     }
 
     await collection.insertOne(secondChanceItem)
-    res.status(201).json(secondChanceItem)
+    res.status(201).json(normalizeItem(secondChanceItem))
   } catch (e) {
     next(e)
   }
@@ -71,7 +101,7 @@ router.get('/:id', async (req, res, next) => {
       return res.status(404).send('secondChanceItem not found')
     }
 
-    res.json(secondChanceItem)
+    res.json(normalizeItem(secondChanceItem))
   } catch (e) {
     next(e)
   }
@@ -92,9 +122,9 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
 
     secondChanceItem.category = req.body.category
     secondChanceItem.condition = req.body.condition
-    secondChanceItem.age_days = req.body.age_days
+    secondChanceItem.ageDays = req.body.age_days ?? req.body.ageDays ?? secondChanceItem.ageDays ?? secondChanceItem.age_days
     secondChanceItem.description = req.body.description
-    secondChanceItem.age_years = Number((secondChanceItem.age_days / 365).toFixed(1))
+    secondChanceItem.ageYears = Number((secondChanceItem.ageDays / 365).toFixed(1))
     secondChanceItem.updatedAt = new Date()
 
     if (req.file) {

@@ -9,8 +9,34 @@ const filename = path.join(__dirname, 'secondChanceItems.json')
 const dbName = 'secondChance'
 const collectionName = 'secondChanceItems'
 
+const normalizeItem = (item = {}) => {
+  const normalized = { ...item }
+
+  if (normalized.dateAdded == null && normalized.date_added != null) {
+    normalized.dateAdded = normalized.date_added
+  }
+
+  if (normalized.ageDays == null && normalized.age_days != null) {
+    normalized.ageDays = normalized.age_days
+  }
+
+  if (normalized.ageYears == null && normalized.age_years != null) {
+    normalized.ageYears = normalized.age_years
+  }
+
+  if (normalized.postedBy == null && normalized.posted_by != null) {
+    normalized.postedBy = normalized.posted_by
+  }
+
+  if (normalized.comments == null) {
+    normalized.comments = []
+  }
+
+  return normalized
+}
+
 // notice you have to load the array of items into the data object
-const data = JSON.parse(fs.readFileSync(filename, 'utf8')).docs
+const data = JSON.parse(fs.readFileSync(filename, 'utf8')).docs.map(normalizeItem)
 
 // connect to database and insert data into the collection
 async function loadData () {

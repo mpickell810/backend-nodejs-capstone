@@ -49,6 +49,8 @@ function DetailsPage () {
   if (error) return <div>Error: {error}</div>
   if (!gift) return <div className="container mt-5">Gift not found</div>
 
+  const comments = Array.isArray(gift.comments) ? gift.comments : []
+
   return (
         <div className="container mt-5">
             <button className="btn btn-secondary mb-3" onClick={handleBackClick}>Back</button>
@@ -69,14 +71,14 @@ function DetailsPage () {
                     {/* Product details */}
                     <p><strong>Category:</strong> {gift.category}</p>
                     <p><strong>Condition:</strong> {gift.condition}</p>
-                    <p><strong>Date Added:</strong> {gift.date_added}</p>
-                    <p><strong>Age (Years):</strong> {gift.age_years}</p>
+                    <p><strong>Date Added:</strong> {gift.dateAdded ?? gift.date_added}</p>
+                    <p><strong>Age (Years):</strong> {gift.ageYears ?? gift.age_years}</p>
                     <p><strong>Description:</strong> {gift.description}</p>
                 </div>
             </div>
             <div className="comments-section mt-4">
                 <h3 className="mb-3">Comments</h3>
-                {gift.comments.length > 0 && gift.comments.map((comment, index) => (
+                {comments.length > 0 && comments.map((comment, index) => (
                     <div key={index} className="card mb-3">
                         <div className="card-body">
                             <p className="comment-author"><strong>{comment.author}:</strong></p>

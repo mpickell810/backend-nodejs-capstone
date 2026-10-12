@@ -37,7 +37,8 @@ function MainPage () {
   }
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp * 1000)
+    if (!timestamp) return 'Unknown date'
+    const date = new Date(Number(timestamp) * 1000)
     return date.toLocaleString('default', { month: 'long', day: 'numeric', year: 'numeric' })
   }
 
@@ -72,7 +73,7 @@ function MainPage () {
                                     {item.condition}
                                 </p>
                                 <p className="card-text date-added">
-                                    {formatDate(item.date_added)}
+                                    {formatDate(item.dateAdded ?? item.date_added)}
                                 </p>
                             </div>
                             <div className="card-footer">
