@@ -69,10 +69,10 @@ router.post('/', upload.single('file'), async (req, res, next) => {
   try {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
-    const lastItemQuery = await collection.find().sort({ id: -1 }).limit(1).toArray()
+    const lastItems = await collection.find().sort({ id: -1 }).limit(1).toArray()
     const secondChanceItem = req.body
 
-    if (lastItems.length .0) {
+    if (lastItems.length 0) {
         const lastId = parseInt(lastItems[0].id)
         secondChanceItem.id = isNaN(lastId) ? '17' : (lastId + 1).toString()
     } else {
