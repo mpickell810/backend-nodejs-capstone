@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: secondchanceapp
+  labels:
+    app: secondchanceapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: secondchanceapp
+  template:
+    metadata:
+      labels:
+        app: secondchanceapp
+    spec:
+      # <-- Block added at pod level
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
+      imagePullSecrets:
+        - name: icr
+
+      containers:
+        - name: secondchanceapp-container
+          image: us.icr.io/sn-labs-mpickell810/secondchanceapp
+          ports:
+            - containerPort: 3060
+
+          # <-- Block added inside the container definition
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 1000
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: secondchance-app-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 3060
+      protocol: TCP
+  selector:
+    app: secondchanceapp

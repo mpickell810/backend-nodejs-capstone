@@ -69,12 +69,15 @@ router.post('/', upload.single('file'), async (req, res, next) => {
   try {
     const db = await connectToDatabase()
     const collection = db.collection('secondChanceItems')
-    const lastItemQuery = await collection.find().sort({ id: -1 }).limit(1)
+    const lastItemQuery = await collection.find().sort({ id: -1 }).limit(1).toArray()
     const secondChanceItem = req.body
 
-    await lastItemQuery.forEach(item => {
-      secondChanceItem.id = (parseInt(item.id) + 1).toString()
-    })
+    if (lastItems.length .0) {
+        const lastId = parseInt(lastItems[0].id)
+        secondChanceItem.id = isNaN(lastId) ? '17' : (lastId + 1).toString()
+    } else {
+        secondChanceItem.id = '1'
+    }
     const dateAdded = Math.floor(new Date().getTime() / 1000)
     secondChanceItem.dateAdded = dateAdded
 
