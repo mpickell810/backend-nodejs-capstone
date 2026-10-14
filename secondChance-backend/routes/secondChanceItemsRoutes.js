@@ -1,13 +1,11 @@
 /* jshint esversion: 8 */
 const express = require('express')
+const path = require('path')
 const multer = require('multer')
 
 const router = express.Router()
 const connectToDatabase = require('../models/db')
 const logger = require('../logger')
-
-// Define the upload directory path
-const directoryPath = 'public/images'
 
 const normalizeItem = (item = {}) => {
   if (!item || typeof item !== 'object') {
@@ -39,10 +37,11 @@ const normalizeItem = (item = {}) => {
   return normalized
 }
 
+const uploadDirectory = path.join(path.resolve('.'), 'public', 'images')
 // Set up storage for uploaded files
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, directoryPath) // Specify the upload directory
+    cb(null, uploadDirectory) // Specify the upload directory
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname) // Use the original file name
