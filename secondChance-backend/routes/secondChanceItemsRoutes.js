@@ -72,11 +72,11 @@ router.post('/', upload.single('file'), async (req, res, next) => {
     const lastItems = await collection.find().sort({ id: -1 }).limit(1).toArray()
     const secondChanceItem = req.body
 
-    if (lastItems.length 0) {
-        const lastId = parseInt(lastItems[0].id)
-        secondChanceItem.id = isNaN(lastId) ? '17' : (lastId + 1).toString()
+    if (lastItems.length > 0) {
+      const lastId = parseInt(lastItems[0].id, 10)
+      secondChanceItem.id = isNaN(lastId) ? '1' : String(lastId + 1)
     } else {
-        secondChanceItem.id = '1'
+      secondChanceItem.id = '1'
     }
     const dateAdded = Math.floor(new Date().getTime() / 1000)
     secondChanceItem.dateAdded = dateAdded
@@ -131,7 +131,7 @@ router.put('/:id', upload.single('file'), async (req, res, next) => {
     secondChanceItem.updatedAt = new Date()
 
     if (req.file) {
-      secondChanceItem.image = `images/${req.file.originalname}`
+      secondChanceItem.image = `/images/${req.file.originalname}`
     }
 
     const updatepreloveItem = await collection.findOneAndUpdate(
