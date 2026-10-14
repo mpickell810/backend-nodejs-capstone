@@ -1,9 +1,11 @@
-// db.js
+// secondChance-backend/models/db.js
 require('dotenv').config()
-const MongoClient = require('mongodb').MongoClient
+const { MongoClient } = require('mongodb')
 
-// MongoDB connection URL with authentication options
-const url = `${process.env.MONGO_URL}`
+const url = process.env.MONGO_URL
+if (!url) {
+  throw new Error('MONGO_URL is not set in environment (.env)')
+}
 
 let dbInstance = null
 const dbName = 'secondChance'
@@ -13,13 +15,9 @@ async function connectToDatabase () {
     return dbInstance
   }
 
-  const client = new MongoClient(url)
-
-  // Task 1: Connect to MongoDB
+  const client = new MongoClient(url, { useNewUrlParser: true, useUnifiedTopology: true })
   await client.connect()
-  // Task 2: Connect to database giftDB and store in variable dbInstance
   dbInstance = client.db(dbName)
-  // Task 3: Return database instance
   return dbInstance
 }
 
