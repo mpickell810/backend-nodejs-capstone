@@ -26,9 +26,25 @@ jobs:
           npm run lint
           echo "Linted all the js files successfully"
 
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f deployment.yml
+- name: Deploy to Kubernetes (if manifest present)
+  run: |
+    if [ -f deployment.yml ]; then
+      echo "Found deployment.yml — applying"
+      kubectl apply -f deployment.yml
+
+      echo "Waiting for deployment/secondchanceapp to rollout"
+      kubectl rollout status deployment/secondchanceapp --timeout=90s
+
+      POD_NAME=$(kubectl get pods -l app=secondchanceapp -o jsonpath="{.items[0].metadata.name}" 2>/dev/null || true)
+      if [ -n "$POD_NAME" ]; then
+        echo "Executing seed script inside pod: $POD_NAME"
+        kubectl exec "$POD_NAME" -- npm run seed
+      else
+        echo "No pod found for app=secondchanceapp — skipping seed"
+      fi
+    else
+      echo "No deployment.yml found — skipping Kubernetes deployment and seed steps"
+    fi
 
       - name: Wait for Pods to Be Ready
         run: |
