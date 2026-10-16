@@ -1,4 +1,4 @@
-name: "CI/CD"
+name: CI/CD
 
 on:
   push:
@@ -18,27 +18,28 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: '20'
 
       - name: Install and Run Linter
         run: |
           npm ci
           npm run lint
           echo "Linted all the js files successfully"
-            - name: Deploy to Kubernetes
+
+      - name: Deploy to Kubernetes
         run: |
           kubectl apply -f deployment.yml
 
       - name: Wait for Pods to Be Ready
         run: |
-          # Forces GitHub Actions to wait until both replicas are fully up and running
+          # Forces GitHub Actions to wait until the replicas are fully up and running
           kubectl rollout status deployment/secondchanceapp --timeout=90s
 
       - name: Run Database Seed Script
         run: |
           # 1. Fetch the name of the first available pod matching your app's label
           POD_NAME=$(kubectl get pods -l app=secondchanceapp -o jsonpath="{.items[0].metadata.name}")
-          
+
           # 2. Execute the seed script inside that specific running pod
           echo "Executing seed script inside pod: $POD_NAME"
-          kubectl exec $POD_NAME -- npm run seed
+          kubectl exec "$POD_NAME" -- npm run seed
